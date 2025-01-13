@@ -327,7 +327,7 @@
 									},
 									{
 										"source": {
-											"type": "Decimal",
+											"type": "String",
 											"ordinal": 13
 										},
 										"sink": {
