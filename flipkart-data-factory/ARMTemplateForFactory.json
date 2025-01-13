@@ -110,7 +110,7 @@
 									},
 									{
 										"source": {
-											"type": "Date",
+											"type": "String",
 											"ordinal": 4
 										},
 										"sink": {
@@ -130,7 +130,7 @@
 									},
 									{
 										"source": {
-											"type": "Int32",
+											"type": "String",
 											"ordinal": 6
 										},
 										"sink": {
@@ -140,7 +140,7 @@
 									},
 									{
 										"source": {
-											"type": "Int32",
+											"type": "String",
 											"ordinal": 7
 										},
 										"sink": {
@@ -150,7 +150,7 @@
 									},
 									{
 										"source": {
-											"type": "Int32",
+											"type": "String",
 											"ordinal": 8
 										},
 										"sink": {
@@ -160,7 +160,7 @@
 									},
 									{
 										"source": {
-											"type": "Int16",
+											"type": "String",
 											"ordinal": 9
 										},
 										"sink": {
@@ -170,7 +170,7 @@
 									},
 									{
 										"source": {
-											"type": "Double",
+											"type": "String",
 											"ordinal": 10
 										},
 										"sink": {
@@ -180,7 +180,7 @@
 									},
 									{
 										"source": {
-											"type": "Double",
+											"type": "String",
 											"ordinal": 11
 										},
 										"sink": {
@@ -190,7 +190,7 @@
 									},
 									{
 										"source": {
-											"type": "Int32",
+											"type": "String",
 											"ordinal": 12
 										},
 										"sink": {
