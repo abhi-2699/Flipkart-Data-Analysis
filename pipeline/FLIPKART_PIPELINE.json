@@ -28,7 +28,7 @@
 						},
 						"formatSettings": {
 							"type": "DelimitedTextReadSettings",
-							"skipLineCount": 0,
+							"skipLineCount": 1,
 							"compressionProperties": {
 								"type": "ZipDeflateReadSettings",
 								"preserveZipFileNameAsFolder": false
