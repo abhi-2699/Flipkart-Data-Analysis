@@ -3,7 +3,7 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "Copy_s23",
+				"name": "CopyToDataLake",
 				"type": "Copy",
 				"dependsOn": [],
 				"policy": {
@@ -43,12 +43,144 @@
 						"formatSettings": {
 							"type": "DelimitedTextWriteSettings",
 							"quoteAllText": true,
-							"fileExtension": ".txt"
+							"fileExtension": ".csv"
 						}
 					},
 					"enableStaging": false,
 					"translator": {
 						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"type": "String",
+									"ordinal": 1
+								},
+								"sink": {
+									"name": "id1",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"type": "String",
+									"ordinal": 2
+								},
+								"sink": {
+									"name": "id2",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"type": "String",
+									"ordinal": 3
+								},
+								"sink": {
+									"name": "id3",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"type": "Date",
+									"ordinal": 4
+								},
+								"sink": {
+									"name": "date",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"type": "String",
+									"ordinal": 5
+								},
+								"sink": {
+									"name": "city_name",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"type": "Int32",
+									"ordinal": 6
+								},
+								"sink": {
+									"name": "order_id",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"type": "Int32",
+									"ordinal": 7
+								},
+								"sink": {
+									"name": "cart_id",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"type": "Int32",
+									"ordinal": 8
+								},
+								"sink": {
+									"name": "dim_customer_key",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"type": "Int16",
+									"ordinal": 9
+								},
+								"sink": {
+									"name": "procured_quantity",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"type": "Double",
+									"ordinal": 10
+								},
+								"sink": {
+									"name": "unit_selling_price",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"type": "Double",
+									"ordinal": 11
+								},
+								"sink": {
+									"name": "total_discount_amount",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"type": "Int32",
+									"ordinal": 12
+								},
+								"sink": {
+									"name": "product_id",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"type": "Double",
+									"ordinal": 13
+								},
+								"sink": {
+									"name": "total_weighted_landing_price",
+									"physicalType": "String"
+								}
+							}
+						],
 						"typeConversion": true,
 						"typeConversionSettings": {
 							"allowDataTruncation": true,
