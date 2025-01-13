@@ -1,0 +1,18 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"value": "flipkart-data-factory"
+		},
+		"FlipkartContainter_accountKey": {
+			"value": ""
+		},
+		"FlipkartContainter_properties_typeProperties_url": {
+			"value": "https://flipkartdataset.dfs.core.windows.net/"
+		},
+		"KAGGLE_HTTP_properties_typeProperties_url": {
+			"value": "https://www.kaggle.com/api/v1/datasets/download/iyumrahul/flipkartsalesdataset"
+		}
+	}
+}
