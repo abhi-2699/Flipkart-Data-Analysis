@@ -1,0 +1,9 @@
+{
+	"name": "flipkart-data-factory",
+	"location": "centralus",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "22bd379d-72d4-43f7-ba3c-99089466e32f",
+		"tenantId": "cc960015-2ead-43d8-aa83-fb62976836f1"
+	}
+}
