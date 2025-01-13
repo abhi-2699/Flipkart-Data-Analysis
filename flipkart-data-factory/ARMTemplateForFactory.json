@@ -200,7 +200,7 @@
 									},
 									{
 										"source": {
-											"type": "Double",
+											"type": "Decimal",
 											"ordinal": 13
 										},
 										"sink": {
