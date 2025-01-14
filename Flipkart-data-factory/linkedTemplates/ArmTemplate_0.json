@@ -368,8 +368,6 @@
 					{
 						"name": "Download Dataset",
 						"type": "Copy",
-						"state": "Inactive",
-						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [],
 						"policy": {
 							"timeout": "0.12:00:00",
@@ -453,6 +451,45 @@
 							"referenceName": "ConnectBatchPool",
 							"type": "LinkedServiceReference"
 						}
+					},
+					{
+						"name": "CleanFlow",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [
+							{
+								"activity": "Unzip",
+								"dependencyConditions": [
+									"Completed"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "CleanFlow",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"LoadProducts": {},
+									"LoadSales": {},
+									"DumpData": {},
+									"DumpMoreData": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
 					}
 				],
 				"policy": {
@@ -464,7 +501,8 @@
 				"[concat(variables('factoryId'), '/datasets/SourceDataset_bk9')]",
 				"[concat(variables('factoryId'), '/datasets/DestinationDataset_bk9')]",
 				"[concat(variables('factoryId'), '/linkedServices/ConnectFlipkartDatasetUsingBatchAccount')]",
-				"[concat(variables('factoryId'), '/linkedServices/ConnectBatchPool')]"
+				"[concat(variables('factoryId'), '/linkedServices/ConnectBatchPool')]",
+				"[concat(variables('factoryId'), '/dataflows/CleanFlow')]"
 			]
 		}
 	]
