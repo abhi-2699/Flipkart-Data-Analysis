@@ -1,5 +1,5 @@
 {
-	"name": "dataflow1",
+	"name": "CleanFlow",
 	"properties": {
 		"type": "MappingDataFlow",
 		"typeProperties": {
@@ -128,7 +128,8 @@
 				"FilterRegion keyGenerate(output(id as long),",
 				"     startAt: 1L,",
 				"     stepValue: 1L) ~> AddSaleID",
-				"LoadProducts select(mapColumn(",
+				"AddProductID select(mapColumn(",
+				"          id,",
 				"          product_id = {_col1_},",
 				"          product_name = {_col2_},",
 				"          unit = {_col3_},",
@@ -160,10 +161,10 @@
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> ReorderColumnNames",
-				"ColumnRename keyGenerate(output(id as long),",
+				"LoadProducts keyGenerate(output(id as long),",
 				"     startAt: 1L,",
 				"     stepValue: 1L) ~> AddProductID",
-				"AddProductID sink(allowSchemaDrift: true,",
+				"ColumnRename sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     format: 'delimited',",
 				"     fileSystem: '03-cleaned',",
