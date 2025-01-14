@@ -1,0 +1,18 @@
+{
+	"name": "RemovePreExistingDatasets",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ConnectFlipkartStorage",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Binary",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "archive",
+				"fileSystem": "01-raw"
+			}
+		}
+	}
+}

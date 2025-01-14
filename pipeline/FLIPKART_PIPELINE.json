@@ -5,8 +5,6 @@
 			{
 				"name": "Download Dataset",
 				"type": "Copy",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [],
 				"policy": {
 					"timeout": "0.12:00:00",
@@ -87,6 +85,37 @@
 				"linkedServiceName": {
 					"referenceName": "ConnectBatchPool",
 					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "CleanFlow",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [
+					{
+						"activity": "Unzip",
+						"dependencyConditions": [
+							"Completed"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "CleanFlow",
+						"type": "DataFlowReference"
+					},
+					"compute": {
+						"coreCount": 8,
+						"computeType": "General"
+					},
+					"traceLevel": "Fine"
 				}
 			}
 		],
