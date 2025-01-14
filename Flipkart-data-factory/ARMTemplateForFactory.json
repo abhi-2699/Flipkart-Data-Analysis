@@ -11,6 +11,14 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'accountKey' of 'ConnectFlipkartStorage'"
 		},
+		"ConnectFlipkartDatasetUsingBatchAccount_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'ConnectFlipkartDatasetUsingBatchAccount'"
+		},
+		"ConnectBatchPool_accessKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accessKey' of 'ConnectBatchPool'"
+		},
 		"ConnectFlipkartStorage_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://flipkartdataset.dfs.core.windows.net/"
@@ -18,6 +26,18 @@
 		"ConnectKaggle_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://www.kaggle.com/api/v1/datasets/download/iyumrahul/flipkartsalesdataset"
+		},
+		"ConnectBatchPool_properties_typeProperties_batchUri": {
+			"type": "string",
+			"defaultValue": "https://flipkartresrouces.eastus.batch.azure.com"
+		},
+		"ConnectBatchPool_properties_typeProperties_poolName": {
+			"type": "string",
+			"defaultValue": "ResourcePool"
+		},
+		"ConnectBatchPool_properties_typeProperties_accountName": {
+			"type": "string",
+			"defaultValue": "flipkartresrouces"
 		}
 	},
 	"variables": {
@@ -80,6 +100,42 @@
 								"parameters": {}
 							}
 						]
+					},
+					{
+						"name": "Unzip",
+						"type": "Custom",
+						"dependsOn": [
+							{
+								"activity": "Download Dataset",
+								"dependencyConditions": [
+									"Completed"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"command": "cmd /C python extract.py",
+							"resourceLinkedService": {
+								"referenceName": "ConnectFlipkartDatasetUsingBatchAccount",
+								"type": "LinkedServiceReference"
+							},
+							"folderPath": "00-scripts",
+							"referenceObjects": {
+								"linkedServices": [],
+								"datasets": []
+							}
+						},
+						"linkedServiceName": {
+							"referenceName": "ConnectBatchPool",
+							"type": "LinkedServiceReference"
+						}
 					}
 				],
 				"policy": {
@@ -89,7 +145,9 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/SourceDataset_bk9')]",
-				"[concat(variables('factoryId'), '/datasets/DestinationDataset_bk9')]"
+				"[concat(variables('factoryId'), '/datasets/DestinationDataset_bk9')]",
+				"[concat(variables('factoryId'), '/linkedServices/ConnectBatchPool')]",
+				"[concat(variables('factoryId'), '/linkedServices/ConnectFlipkartDatasetUsingBatchAccount')]"
 			]
 		},
 		{
@@ -167,6 +225,44 @@
 				}
 			},
 			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ConnectFlipkartDatasetUsingBatchAccount')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureBlobStorage",
+				"typeProperties": {
+					"connectionString": "[parameters('ConnectFlipkartDatasetUsingBatchAccount_connectionString')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ConnectBatchPool')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureBatch",
+				"typeProperties": {
+					"batchUri": "[parameters('ConnectBatchPool_properties_typeProperties_batchUri')]",
+					"poolName": "[parameters('ConnectBatchPool_properties_typeProperties_poolName')]",
+					"accountName": "[parameters('ConnectBatchPool_properties_typeProperties_accountName')]",
+					"linkedServiceName": {
+						"referenceName": "ConnectFlipkartDatasetUsingBatchAccount",
+						"type": "LinkedServiceReference"
+					},
+					"accessKey": {
+						"type": "SecureString",
+						"value": "[parameters('ConnectBatchPool_accessKey')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/ConnectFlipkartDatasetUsingBatchAccount')]"
+			]
 		}
 	]
 }

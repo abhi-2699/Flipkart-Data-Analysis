@@ -8,11 +8,26 @@
 		"ConnectFlipkartStorage_accountKey": {
 			"value": ""
 		},
+		"ConnectFlipkartDatasetUsingBatchAccount_connectionString": {
+			"value": ""
+		},
+		"ConnectBatchPool_accessKey": {
+			"value": ""
+		},
 		"ConnectFlipkartStorage_properties_typeProperties_url": {
 			"value": "https://flipkartdataset.dfs.core.windows.net/"
 		},
 		"ConnectKaggle_properties_typeProperties_url": {
 			"value": "https://www.kaggle.com/api/v1/datasets/download/iyumrahul/flipkartsalesdataset"
+		},
+		"ConnectBatchPool_properties_typeProperties_batchUri": {
+			"value": "https://flipkartresrouces.eastus.batch.azure.com"
+		},
+		"ConnectBatchPool_properties_typeProperties_poolName": {
+			"value": "ResourcePool"
+		},
+		"ConnectBatchPool_properties_typeProperties_accountName": {
+			"value": "flipkartresrouces"
 		},
 		"containerUri": {
 			"value": ""
