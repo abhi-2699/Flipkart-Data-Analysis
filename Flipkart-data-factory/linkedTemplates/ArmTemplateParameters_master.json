@@ -5,20 +5,14 @@
 		"factoryName": {
 			"value": "Flipkart-data-factory"
 		},
-		"ConnectFlipkartStorage_accountKey": {
+		"ConnectBatchPool_accessKey": {
 			"value": ""
 		},
 		"ConnectFlipkartDatasetUsingBatchAccount_connectionString": {
 			"value": ""
 		},
-		"ConnectBatchPool_accessKey": {
+		"ConnectFlipkartStorage_accountKey": {
 			"value": ""
-		},
-		"ConnectFlipkartStorage_properties_typeProperties_url": {
-			"value": "https://flipkartdataset.dfs.core.windows.net/"
-		},
-		"ConnectKaggle_properties_typeProperties_url": {
-			"value": "https://www.kaggle.com/api/v1/datasets/download/iyumrahul/flipkartsalesdataset"
 		},
 		"ConnectBatchPool_properties_typeProperties_batchUri": {
 			"value": "https://flipkartresrouces.eastus.batch.azure.com"
@@ -28,6 +22,12 @@
 		},
 		"ConnectBatchPool_properties_typeProperties_accountName": {
 			"value": "flipkartresrouces"
+		},
+		"ConnectFlipkartStorage_properties_typeProperties_url": {
+			"value": "https://flipkartdataset.dfs.core.windows.net/"
+		},
+		"ConnectKaggle_properties_typeProperties_url": {
+			"value": "https://www.kaggle.com/api/v1/datasets/download/iyumrahul/flipkartsalesdataset"
 		},
 		"containerUri": {
 			"value": ""

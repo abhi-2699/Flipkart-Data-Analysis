@@ -7,25 +7,17 @@
 			"metadata": "Data Factory name",
 			"defaultValue": "Flipkart-data-factory"
 		},
-		"ConnectFlipkartStorage_accountKey": {
+		"ConnectBatchPool_accessKey": {
 			"type": "secureString",
-			"metadata": "Secure string for 'accountKey' of 'ConnectFlipkartStorage'"
+			"metadata": "Secure string for 'accessKey' of 'ConnectBatchPool'"
 		},
 		"ConnectFlipkartDatasetUsingBatchAccount_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'ConnectFlipkartDatasetUsingBatchAccount'"
 		},
-		"ConnectBatchPool_accessKey": {
+		"ConnectFlipkartStorage_accountKey": {
 			"type": "secureString",
-			"metadata": "Secure string for 'accessKey' of 'ConnectBatchPool'"
-		},
-		"ConnectFlipkartStorage_properties_typeProperties_url": {
-			"type": "string",
-			"defaultValue": "https://flipkartdataset.dfs.core.windows.net/"
-		},
-		"ConnectKaggle_properties_typeProperties_url": {
-			"type": "string",
-			"defaultValue": "https://www.kaggle.com/api/v1/datasets/download/iyumrahul/flipkartsalesdataset"
+			"metadata": "Secure string for 'accountKey' of 'ConnectFlipkartStorage'"
 		},
 		"ConnectBatchPool_properties_typeProperties_batchUri": {
 			"type": "string",
@@ -38,6 +30,14 @@
 		"ConnectBatchPool_properties_typeProperties_accountName": {
 			"type": "string",
 			"defaultValue": "flipkartresrouces"
+		},
+		"ConnectFlipkartStorage_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://flipkartdataset.dfs.core.windows.net/"
+		},
+		"ConnectKaggle_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://www.kaggle.com/api/v1/datasets/download/iyumrahul/flipkartsalesdataset"
 		},
 		"containerUri": {
 			"type": "string",
@@ -66,11 +66,11 @@
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
 					},
-					"ConnectFlipkartStorage_accountKey": {
-						"value": "[parameters('ConnectFlipkartStorage_accountKey')]"
-					},
 					"ConnectFlipkartDatasetUsingBatchAccount_connectionString": {
 						"value": "[parameters('ConnectFlipkartDatasetUsingBatchAccount_connectionString')]"
+					},
+					"ConnectFlipkartStorage_accountKey": {
+						"value": "[parameters('ConnectFlipkartStorage_accountKey')]"
 					},
 					"ConnectBatchPool_accessKey": {
 						"value": "[parameters('ConnectBatchPool_accessKey')]"

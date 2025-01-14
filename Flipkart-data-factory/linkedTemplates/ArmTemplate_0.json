@@ -7,13 +7,13 @@
 			"metadata": "Data Factory name",
 			"defaultValue": "Flipkart-data-factory"
 		},
-		"ConnectFlipkartStorage_accountKey": {
-			"type": "secureString",
-			"metadata": "Secure string for 'accountKey' of 'ConnectFlipkartStorage'"
-		},
 		"ConnectFlipkartDatasetUsingBatchAccount_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'ConnectFlipkartDatasetUsingBatchAccount'"
+		},
+		"ConnectFlipkartStorage_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'ConnectFlipkartStorage'"
 		},
 		"ConnectBatchPool_accessKey": {
 			"type": "secureString",
@@ -45,6 +45,19 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/ConnectFlipkartDatasetUsingBatchAccount')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureBlobStorage",
+				"typeProperties": {
+					"connectionString": "[parameters('ConnectFlipkartDatasetUsingBatchAccount_connectionString')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/ConnectFlipkartStorage')]",
 			"type": "Microsoft.DataFactory/factories/linkedServices",
 			"apiVersion": "2018-06-01",
@@ -72,19 +85,6 @@
 					"url": "[parameters('ConnectKaggle_properties_typeProperties_url')]",
 					"enableServerCertificateValidation": true,
 					"authenticationType": "Anonymous"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/ConnectFlipkartDatasetUsingBatchAccount')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "AzureBlobStorage",
-				"typeProperties": {
-					"connectionString": "[parameters('ConnectFlipkartDatasetUsingBatchAccount_connectionString')]"
 				}
 			},
 			"dependsOn": []
@@ -159,6 +159,153 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/dataflow1')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"linkedService": {
+								"referenceName": "ConnectFlipkartStorage",
+								"type": "LinkedServiceReference"
+							},
+							"name": "LoadProducts"
+						},
+						{
+							"linkedService": {
+								"referenceName": "ConnectFlipkartStorage",
+								"type": "LinkedServiceReference"
+							},
+							"name": "LoadSales"
+						}
+					],
+					"sinks": [
+						{
+							"linkedService": {
+								"referenceName": "ConnectFlipkartStorage",
+								"type": "LinkedServiceReference"
+							},
+							"name": "DumpData"
+						},
+						{
+							"linkedService": {
+								"referenceName": "ConnectFlipkartStorage",
+								"type": "LinkedServiceReference"
+							},
+							"name": "DumpMoreData"
+						}
+					],
+					"transformations": [
+						{
+							"name": "RemoveID"
+						}
+					],
+					"scriptLines": [
+						"source(output(",
+						"          {_col0_} as short,",
+						"          {_col1_} as integer,",
+						"          {_col2_} as string,",
+						"          {_col3_} as string,",
+						"          {_col4_} as string,",
+						"          {_col5_} as string,",
+						"          {_col6_} as string,",
+						"          {_col7_} as string,",
+						"          {_col8_} as string,",
+						"          {_col9_} as string,",
+						"          {_col10_} as short,",
+						"          {_col11_} as short,",
+						"          {_col12_} as short",
+						"     ),",
+						"     useSchema: false,",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false,",
+						"     format: 'delimited',",
+						"     fileSystem: '02-extracted',",
+						"     fileName: 'products.csv',",
+						"     columnDelimiter: ',',",
+						"     escapeChar: '\\\\',",
+						"     quoteChar: '\\\"',",
+						"     columnNamesAsHeader: false,",
+						"     skipLines: 1,",
+						"     multiLineRow: true) ~> LoadProducts",
+						"source(output(",
+						"          {_col0_} as short,",
+						"          {_col1_} as short,",
+						"          {_col2_} as short,",
+						"          {_col3_} as date,",
+						"          {_col4_} as string,",
+						"          {_col5_} as integer,",
+						"          {_col6_} as integer,",
+						"          {_col7_} as integer,",
+						"          {_col8_} as short,",
+						"          {_col9_} as double,",
+						"          {_col10_} as double,",
+						"          {_col11_} as integer,",
+						"          {_col12_} as double",
+						"     ),",
+						"     useSchema: false,",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false,",
+						"     format: 'delimited',",
+						"     fileSystem: '02-extracted',",
+						"     fileName: 'Sales.csv',",
+						"     columnDelimiter: ',',",
+						"     escapeChar: '\\\\',",
+						"     quoteChar: '\\\"',",
+						"     columnNamesAsHeader: false,",
+						"     skipLines: 1) ~> LoadSales",
+						"LoadSales select(mapColumn(",
+						"          date = {_col3_},",
+						"          city_name = {_col4_},",
+						"          order_id = {_col5_},",
+						"          cart_id = {_col6_},",
+						"          dim_customer_key = {_col7_},",
+						"          procured_quantity = {_col8_},",
+						"          unit_selling_price = {_col9_},",
+						"          total_discount_amount = {_col10_},",
+						"          product_id = {_col11_},",
+						"          total_weighted_landing_price = {_col12_}",
+						"     ),",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> RemoveID",
+						"LoadProducts sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     format: 'delimited',",
+						"     fileSystem: '03-cleaned',",
+						"     columnDelimiter: ',',",
+						"     escapeChar: '\\\\',",
+						"     quoteChar: '\\\"',",
+						"     columnNamesAsHeader: false,",
+						"     umask: 0022,",
+						"     preCommands: [],",
+						"     postCommands: [],",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> DumpData",
+						"RemoveID sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     format: 'delimited',",
+						"     fileSystem: '03-cleaned',",
+						"     columnDelimiter: ',',",
+						"     escapeChar: '\\\\',",
+						"     quoteChar: '\\\"',",
+						"     columnNamesAsHeader: false,",
+						"     umask: 0022,",
+						"     preCommands: [],",
+						"     postCommands: [],",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> DumpMoreData"
+					]
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/ConnectFlipkartStorage')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/FLIPKART_PIPELINE')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
@@ -167,6 +314,8 @@
 					{
 						"name": "Download Dataset",
 						"type": "Copy",
+						"state": "Inactive",
+						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [],
 						"policy": {
 							"timeout": "0.12:00:00",
@@ -260,8 +409,8 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/SourceDataset_bk9')]",
 				"[concat(variables('factoryId'), '/datasets/DestinationDataset_bk9')]",
-				"[concat(variables('factoryId'), '/linkedServices/ConnectBatchPool')]",
-				"[concat(variables('factoryId'), '/linkedServices/ConnectFlipkartDatasetUsingBatchAccount')]"
+				"[concat(variables('factoryId'), '/linkedServices/ConnectFlipkartDatasetUsingBatchAccount')]",
+				"[concat(variables('factoryId'), '/linkedServices/ConnectBatchPool')]"
 			]
 		}
 	]
