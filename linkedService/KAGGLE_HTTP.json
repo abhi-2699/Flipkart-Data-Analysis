@@ -1,0 +1,12 @@
+{
+	"name": "KAGGLE_HTTP",
+	"properties": {
+		"annotations": [],
+		"type": "HttpServer",
+		"typeProperties": {
+			"url": "https://www.kaggle.com/api/v1/datasets/download/iyumrahul/flipkartsalesdataset",
+			"enableServerCertificateValidation": true,
+			"authenticationType": "Anonymous"
+		}
+	}
+}
