@@ -25,14 +25,14 @@
 						"referenceName": "ConnectFlipkartStorage",
 						"type": "LinkedServiceReference"
 					},
-					"name": "DumpData"
+					"name": "DumpProductsData"
 				},
 				{
 					"linkedService": {
 						"referenceName": "ConnectFlipkartStorage",
 						"type": "LinkedServiceReference"
 					},
-					"name": "DumpMoreData"
+					"name": "DumpSalesData"
 				}
 			],
 			"transformations": [
@@ -176,7 +176,7 @@
 				"     preCommands: [],",
 				"     postCommands: [],",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> DumpData",
+				"     skipDuplicateMapOutputs: true) ~> DumpProductsData",
 				"ReorderColumnNames sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     format: 'delimited',",
@@ -189,7 +189,7 @@
 				"     preCommands: [],",
 				"     postCommands: [],",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> DumpMoreData"
+				"     skipDuplicateMapOutputs: true) ~> DumpSalesData"
 			]
 		}
 	}
