@@ -31,7 +31,7 @@
 			"properties": {
 				"activities": [
 					{
-						"name": "Copy_bk9",
+						"name": "Download Dataset",
 						"type": "Copy",
 						"dependsOn": [],
 						"policy": {
@@ -53,6 +53,9 @@
 								"storeSettings": {
 									"type": "HttpReadSettings",
 									"requestMethod": "GET"
+								},
+								"formatSettings": {
+									"type": "BinaryReadSettings"
 								}
 							},
 							"sink": {
