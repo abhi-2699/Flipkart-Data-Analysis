@@ -310,10 +310,19 @@
 							"name": "RemoveID"
 						},
 						{
-							"name": "AddID"
+							"name": "AddSaleID"
 						},
 						{
-							"name": "select1"
+							"name": "ColumnRename"
+						},
+						{
+							"name": "FilterRegion"
+						},
+						{
+							"name": "ReorderColumnNames"
+						},
+						{
+							"name": "AddProductID"
 						}
 					],
 					"scriptLines": [
@@ -386,27 +395,45 @@
 						"     ),",
 						"     skipDuplicateMapInputs: true,",
 						"     skipDuplicateMapOutputs: true) ~> RemoveID",
-						"RemoveID keyGenerate(output(id as long),",
+						"FilterRegion keyGenerate(output(id as long),",
 						"     startAt: 1L,",
-						"     stepValue: 1L) ~> AddID",
+						"     stepValue: 1L) ~> AddSaleID",
 						"LoadProducts select(mapColumn(",
-						"          {_col0_},",
-						"          {_col1_},",
-						"          {_col2_},",
-						"          {_col3_},",
-						"          {_col4_},",
-						"          {_col5_},",
-						"          {_col6_},",
-						"          {_col7_},",
-						"          {_col8_},",
-						"          {_col9_},",
-						"          {_col10_},",
-						"          {_col11_},",
-						"          {_col12_}",
+						"          product_id = {_col1_},",
+						"          product_name = {_col2_},",
+						"          unit = {_col3_},",
+						"          product_type = {_col4_},",
+						"          brand_name = {_col5_},",
+						"          manufacturer_name = {_col6_},",
+						"          l0_category = {_col7_},",
+						"          l1_category = {_col8_},",
+						"          l2_category = {_col9_},",
+						"          l0_category_id = {_col10_},",
+						"          l1_category_id = {_col11_},",
+						"          l2_category_id = {_col12_}",
 						"     ),",
 						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true) ~> select1",
-						"select1 sink(allowSchemaDrift: true,",
+						"     skipDuplicateMapOutputs: true) ~> ColumnRename",
+						"RemoveID filter(city_name == \"Delhi\") ~> FilterRegion",
+						"AddSaleID select(mapColumn(",
+						"          id,",
+						"          date,",
+						"          city_name,",
+						"          order_id,",
+						"          cart_id,",
+						"          dim_customer_key,",
+						"          procured_quantity,",
+						"          unit_selling_price,",
+						"          total_discount_amount,",
+						"          product_id,",
+						"          total_weighted_landing_price",
+						"     ),",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> ReorderColumnNames",
+						"ColumnRename keyGenerate(output(id as long),",
+						"     startAt: 1L,",
+						"     stepValue: 1L) ~> AddProductID",
+						"AddProductID sink(allowSchemaDrift: true,",
 						"     validateSchema: false,",
 						"     format: 'delimited',",
 						"     fileSystem: '03-cleaned',",
@@ -419,7 +446,7 @@
 						"     postCommands: [],",
 						"     skipDuplicateMapInputs: true,",
 						"     skipDuplicateMapOutputs: true) ~> DumpData",
-						"AddID sink(allowSchemaDrift: true,",
+						"ReorderColumnNames sink(allowSchemaDrift: true,",
 						"     validateSchema: false,",
 						"     format: 'delimited',",
 						"     fileSystem: '03-cleaned',",
