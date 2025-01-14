@@ -3,7 +3,7 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "Download File",
+				"name": "Download Dataset",
 				"type": "Copy",
 				"dependsOn": [],
 				"policy": {
