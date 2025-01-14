@@ -1,0 +1,18 @@
+{
+	"name": "ConnectBatchPool",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "AzureBatch",
+		"typeProperties": {
+			"batchUri": "https://flipkartresrouces.eastus.batch.azure.com",
+			"poolName": "ResourcePool",
+			"accountName": "flipkartresrouces",
+			"linkedServiceName": {
+				"referenceName": "ConnectFlipkartDatasetUsingBatchAccount",
+				"type": "LinkedServiceReference"
+			},
+			"encryptedCredential": "ew0KICAiVmVyc2lvbiI6ICIyMDE3LTExLTMwIiwNCiAgIlByb3RlY3Rpb25Nb2RlIjogIktleSIsDQogICJTZWNyZXRDb250ZW50VHlwZSI6ICJQbGFpbnRleHQiLA0KICAiQ3JlZGVudGlhbElkIjogIkRBVEFGQUNUT1JZQEQ4OTk5MTcyLUIzRDEtNDI0NC05MTgzLTEzNjVBMjU3OTlBRV9kMzFhNjRjMS04YmFiLTQzZTgtYjBkMS1jNzdlNzU1NWRmMmIiDQp9"
+		}
+	}
+}
