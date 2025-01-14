@@ -38,6 +38,12 @@
 			"transformations": [
 				{
 					"name": "RemoveID"
+				},
+				{
+					"name": "AddID"
+				},
+				{
+					"name": "select1"
 				}
 			],
 			"scriptLines": [
@@ -110,7 +116,27 @@
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> RemoveID",
-				"LoadProducts sink(allowSchemaDrift: true,",
+				"RemoveID keyGenerate(output(id as long),",
+				"     startAt: 1L,",
+				"     stepValue: 1L) ~> AddID",
+				"LoadProducts select(mapColumn(",
+				"          {_col0_},",
+				"          {_col1_},",
+				"          {_col2_},",
+				"          {_col3_},",
+				"          {_col4_},",
+				"          {_col5_},",
+				"          {_col6_},",
+				"          {_col7_},",
+				"          {_col8_},",
+				"          {_col9_},",
+				"          {_col10_},",
+				"          {_col11_},",
+				"          {_col12_}",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> select1",
+				"select1 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     format: 'delimited',",
 				"     fileSystem: '03-cleaned',",
@@ -123,7 +149,7 @@
 				"     postCommands: [],",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> DumpData",
-				"RemoveID sink(allowSchemaDrift: true,",
+				"AddID sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     format: 'delimited',",
 				"     fileSystem: '03-cleaned',",
