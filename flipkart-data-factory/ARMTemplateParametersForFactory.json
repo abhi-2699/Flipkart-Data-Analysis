@@ -5,10 +5,10 @@
 		"factoryName": {
 			"value": "flipkart-data-factory"
 		},
-		"FlipkartContainter_accountKey": {
+		"FlipkartLinkedService_accountKey": {
 			"value": ""
 		},
-		"FlipkartContainter_properties_typeProperties_url": {
+		"FlipkartLinkedService_properties_typeProperties_url": {
 			"value": "https://flipkartdataset.dfs.core.windows.net/"
 		},
 		"KAGGLE_HTTP_properties_typeProperties_url": {

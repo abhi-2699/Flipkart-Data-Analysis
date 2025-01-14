@@ -7,11 +7,11 @@
 			"metadata": "Data Factory name",
 			"defaultValue": "flipkart-data-factory"
 		},
-		"FlipkartContainter_accountKey": {
+		"FlipkartLinkedService_accountKey": {
 			"type": "secureString",
-			"metadata": "Secure string for 'accountKey' of 'FlipkartContainter'"
+			"metadata": "Secure string for 'accountKey' of 'FlipkartLinkedService'"
 		},
-		"FlipkartContainter_properties_typeProperties_url": {
+		"FlipkartLinkedService_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://flipkartdataset.dfs.core.windows.net/"
 		},
@@ -46,11 +46,11 @@
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
 					},
-					"FlipkartContainter_accountKey": {
-						"value": "[parameters('FlipkartContainter_accountKey')]"
+					"FlipkartLinkedService_accountKey": {
+						"value": "[parameters('FlipkartLinkedService_accountKey')]"
 					},
-					"FlipkartContainter_properties_typeProperties_url": {
-						"value": "[parameters('FlipkartContainter_properties_typeProperties_url')]"
+					"FlipkartLinkedService_properties_typeProperties_url": {
+						"value": "[parameters('FlipkartLinkedService_properties_typeProperties_url')]"
 					},
 					"KAGGLE_HTTP_properties_typeProperties_url": {
 						"value": "[parameters('KAGGLE_HTTP_properties_typeProperties_url')]"

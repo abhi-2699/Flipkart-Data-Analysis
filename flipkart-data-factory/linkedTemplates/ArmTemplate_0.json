@@ -7,11 +7,11 @@
 			"metadata": "Data Factory name",
 			"defaultValue": "flipkart-data-factory"
 		},
-		"FlipkartContainter_accountKey": {
+		"FlipkartLinkedService_accountKey": {
 			"type": "secureString",
-			"metadata": "Secure string for 'accountKey' of 'FlipkartContainter'"
+			"metadata": "Secure string for 'accountKey' of 'FlipkartLinkedService'"
 		},
-		"FlipkartContainter_properties_typeProperties_url": {
+		"FlipkartLinkedService_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://flipkartdataset.dfs.core.windows.net/"
 		},
@@ -25,17 +25,17 @@
 	},
 	"resources": [
 		{
-			"name": "[concat(parameters('factoryName'), '/FlipkartContainter')]",
+			"name": "[concat(parameters('factoryName'), '/FlipkartLinkedService')]",
 			"type": "Microsoft.DataFactory/factories/linkedServices",
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"annotations": [],
 				"type": "AzureBlobFS",
 				"typeProperties": {
-					"url": "[parameters('FlipkartContainter_properties_typeProperties_url')]",
+					"url": "[parameters('FlipkartLinkedService_properties_typeProperties_url')]",
 					"accountKey": {
 						"type": "SecureString",
-						"value": "[parameters('FlipkartContainter_accountKey')]"
+						"value": "[parameters('FlipkartLinkedService_accountKey')]"
 					}
 				}
 			},
@@ -57,34 +57,32 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/DestinationDataset_s23')]",
+			"name": "[concat(parameters('factoryName'), '/DestinationDataset_fiz')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"linkedServiceName": {
-					"referenceName": "FlipkartContainter",
+					"referenceName": "FlipkartLinkedService",
 					"type": "LinkedServiceReference"
 				},
 				"annotations": [],
-				"type": "DelimitedText",
+				"type": "Binary",
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobFSLocation",
 						"fileSystem": "raw"
 					},
-					"columnDelimiter": ",",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": []
+					"compression": {
+						"type": "ZipDeflate"
+					}
+				}
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/FlipkartContainter')]"
+				"[concat(variables('factoryId'), '/linkedServices/FlipkartLinkedService')]"
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/SourceDataset_s23')]",
+			"name": "[concat(parameters('factoryName'), '/SourceDataset_fiz')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -93,72 +91,28 @@
 					"type": "LinkedServiceReference"
 				},
 				"annotations": [],
-				"type": "DelimitedText",
+				"type": "Binary",
 				"typeProperties": {
 					"location": {
 						"type": "HttpServerLocation"
 					},
-					"columnDelimiter": ",",
-					"rowDelimiter": "\n",
-					"compressionCodec": "ZipDeflate",
-					"escapeChar": "\\",
-					"firstRowAsHeader": false,
-					"quoteChar": null
-				},
-				"schema": [
-					{
-						"type": "String"
-					},
-					{
-						"type": "String"
-					},
-					{
-						"type": "String"
-					},
-					{
-						"type": "String"
-					},
-					{
-						"type": "String"
-					},
-					{
-						"type": "String"
-					},
-					{
-						"type": "String"
-					},
-					{
-						"type": "String"
-					},
-					{
-						"type": "String"
-					},
-					{
-						"type": "String"
-					},
-					{
-						"type": "String"
-					},
-					{
-						"type": "String"
-					},
-					{
-						"type": "String"
+					"compression": {
+						"type": "ZipDeflate"
 					}
-				]
+				}
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/KAGGLE_HTTP')]"
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/FLIPKART_PIPELINE')]",
+			"name": "[concat(parameters('factoryName'), '/FLIPKART_ETL')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"activities": [
 					{
-						"name": "CopyToDataLake",
+						"name": "Copy_fiz",
 						"type": "Copy",
 						"dependsOn": [],
 						"policy": {
@@ -176,14 +130,13 @@
 						],
 						"typeProperties": {
 							"source": {
-								"type": "DelimitedTextSource",
+								"type": "BinarySource",
 								"storeSettings": {
 									"type": "HttpReadSettings",
 									"requestMethod": "GET"
 								},
 								"formatSettings": {
-									"type": "DelimitedTextReadSettings",
-									"skipLineCount": 1,
+									"type": "BinaryReadSettings",
 									"compressionProperties": {
 										"type": "ZipDeflateReadSettings",
 										"preserveZipFileNameAsFolder": false
@@ -191,168 +144,23 @@
 								}
 							},
 							"sink": {
-								"type": "DelimitedTextSink",
+								"type": "BinarySink",
 								"storeSettings": {
 									"type": "AzureBlobFSWriteSettings"
-								},
-								"formatSettings": {
-									"type": "DelimitedTextWriteSettings",
-									"quoteAllText": true,
-									"fileExtension": ".csv"
 								}
 							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"mappings": [
-									{
-										"source": {
-											"type": "String",
-											"ordinal": 1
-										},
-										"sink": {
-											"name": "id1",
-											"physicalType": "String"
-										}
-									},
-									{
-										"source": {
-											"type": "String",
-											"ordinal": 2
-										},
-										"sink": {
-											"name": "id2",
-											"physicalType": "String"
-										}
-									},
-									{
-										"source": {
-											"type": "String",
-											"ordinal": 3
-										},
-										"sink": {
-											"name": "id3",
-											"physicalType": "String"
-										}
-									},
-									{
-										"source": {
-											"type": "String",
-											"ordinal": 4
-										},
-										"sink": {
-											"name": "date",
-											"physicalType": "String"
-										}
-									},
-									{
-										"source": {
-											"type": "String",
-											"ordinal": 5
-										},
-										"sink": {
-											"name": "city_name",
-											"physicalType": "String"
-										}
-									},
-									{
-										"source": {
-											"type": "String",
-											"ordinal": 6
-										},
-										"sink": {
-											"name": "order_id",
-											"physicalType": "String"
-										}
-									},
-									{
-										"source": {
-											"type": "String",
-											"ordinal": 7
-										},
-										"sink": {
-											"name": "cart_id",
-											"physicalType": "String"
-										}
-									},
-									{
-										"source": {
-											"type": "String",
-											"ordinal": 8
-										},
-										"sink": {
-											"name": "dim_customer_key",
-											"physicalType": "String"
-										}
-									},
-									{
-										"source": {
-											"type": "String",
-											"ordinal": 9
-										},
-										"sink": {
-											"name": "procured_quantity",
-											"physicalType": "String"
-										}
-									},
-									{
-										"source": {
-											"type": "String",
-											"ordinal": 10
-										},
-										"sink": {
-											"name": "unit_selling_price",
-											"physicalType": "String"
-										}
-									},
-									{
-										"source": {
-											"type": "String",
-											"ordinal": 11
-										},
-										"sink": {
-											"name": "total_discount_amount",
-											"physicalType": "String"
-										}
-									},
-									{
-										"source": {
-											"type": "String",
-											"ordinal": 12
-										},
-										"sink": {
-											"name": "product_id",
-											"physicalType": "String"
-										}
-									},
-									{
-										"source": {
-											"type": "String",
-											"ordinal": 13
-										},
-										"sink": {
-											"name": "total_weighted_landing_price",
-											"physicalType": "String"
-										}
-									}
-								],
-								"typeConversion": true,
-								"typeConversionSettings": {
-									"allowDataTruncation": true,
-									"treatBooleanAsNumber": false
-								}
-							}
+							"enableStaging": false
 						},
 						"inputs": [
 							{
-								"referenceName": "SourceDataset_s23",
+								"referenceName": "SourceDataset_fiz",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
 						],
 						"outputs": [
 							{
-								"referenceName": "DestinationDataset_s23",
+								"referenceName": "DestinationDataset_fiz",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
@@ -365,8 +173,8 @@
 				"annotations": []
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/SourceDataset_s23')]",
-				"[concat(variables('factoryId'), '/datasets/DestinationDataset_s23')]"
+				"[concat(variables('factoryId'), '/datasets/SourceDataset_fiz')]",
+				"[concat(variables('factoryId'), '/datasets/DestinationDataset_fiz')]"
 			]
 		}
 	]
