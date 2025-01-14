@@ -5,13 +5,13 @@
 		"factoryName": {
 			"value": "Flipkart-data-factory"
 		},
-		"FlipkartLinkedService_accountKey": {
+		"ConnectFlipkartStorage_accountKey": {
 			"value": ""
 		},
-		"FlipkartLinkedService_properties_typeProperties_url": {
+		"ConnectFlipkartStorage_properties_typeProperties_url": {
 			"value": "https://flipkartdataset.dfs.core.windows.net/"
 		},
-		"KAGGLE_HTTP_properties_typeProperties_url": {
+		"ConnectKaggle_properties_typeProperties_url": {
 			"value": "https://www.kaggle.com/api/v1/datasets/download/iyumrahul/flipkartsalesdataset"
 		},
 		"containerUri": {

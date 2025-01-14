@@ -7,15 +7,15 @@
 			"metadata": "Data Factory name",
 			"defaultValue": "Flipkart-data-factory"
 		},
-		"FlipkartLinkedService_accountKey": {
+		"ConnectFlipkartStorage_accountKey": {
 			"type": "secureString",
-			"metadata": "Secure string for 'accountKey' of 'FlipkartLinkedService'"
+			"metadata": "Secure string for 'accountKey' of 'ConnectFlipkartStorage'"
 		},
-		"FlipkartLinkedService_properties_typeProperties_url": {
+		"ConnectFlipkartStorage_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://flipkartdataset.dfs.core.windows.net/"
 		},
-		"KAGGLE_HTTP_properties_typeProperties_url": {
+		"ConnectKaggle_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://www.kaggle.com/api/v1/datasets/download/iyumrahul/flipkartsalesdataset"
 		},
@@ -46,14 +46,14 @@
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
 					},
-					"FlipkartLinkedService_accountKey": {
-						"value": "[parameters('FlipkartLinkedService_accountKey')]"
+					"ConnectFlipkartStorage_accountKey": {
+						"value": "[parameters('ConnectFlipkartStorage_accountKey')]"
 					},
-					"FlipkartLinkedService_properties_typeProperties_url": {
-						"value": "[parameters('FlipkartLinkedService_properties_typeProperties_url')]"
+					"ConnectFlipkartStorage_properties_typeProperties_url": {
+						"value": "[parameters('ConnectFlipkartStorage_properties_typeProperties_url')]"
 					},
-					"KAGGLE_HTTP_properties_typeProperties_url": {
-						"value": "[parameters('KAGGLE_HTTP_properties_typeProperties_url')]"
+					"ConnectKaggle_properties_typeProperties_url": {
+						"value": "[parameters('ConnectKaggle_properties_typeProperties_url')]"
 					}
 				}
 			},
