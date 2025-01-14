@@ -1,0 +1,16 @@
+{
+	"name": "SourceDataset_bk9",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ConnectKaggle",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Binary",
+		"typeProperties": {
+			"location": {
+				"type": "HttpServerLocation"
+			}
+		}
+	}
+}
